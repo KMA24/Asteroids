@@ -1,4 +1,4 @@
 module bullet {
     exports dk.sdu.cbse.bullet;
-    requires core;
+    requires common;
 }
