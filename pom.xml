@@ -13,6 +13,7 @@
     <module>core</module>
     <module>player</module>
     <module>bullet</module>
+    <module>common</module>
   </modules>
 
   <properties>
