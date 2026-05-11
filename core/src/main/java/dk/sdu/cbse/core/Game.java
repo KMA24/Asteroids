@@ -22,6 +22,7 @@ public class Game extends Application {
     private final World world = new World();
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
     private Pane gameWindow;
+    private int printCounter;
 
     public static void main(String[] args) {
         launch(args);
@@ -63,6 +64,15 @@ public class Game extends Application {
     private void update() {
         for (IEntityProcessingService processor : ServiceLoader.load(IEntityProcessingService.class)) {
             processor.process(gameData, world);
+        }
+        //shows the enemy position
+        if (printCounter++ >= 30) {
+            for (Entity entity : world.getEntities()) {
+                if ("Enemy1".equals(entity.getType())) {
+                    System.out.printf("Enemy Position -> X: %.1f, Y: %.1f\n", entity.getX(), entity.getY());
+                }
+            }
+            printCounter = 0;
         }
     }
 
