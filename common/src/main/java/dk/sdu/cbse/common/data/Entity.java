@@ -1,10 +1,13 @@
 package dk.sdu.cbse.common.data;
 
-public class Entity {
+import java.io.Serializable;
+
+public class Entity implements Serializable {
     private double x;
     private double y;
     private double radians;
     private final String ID = java.util.UUID.randomUUID().toString();
+    private String type;
 
     public double getX() {return x;}
     public void setX(double x) {this.x = x;}
@@ -18,4 +21,13 @@ public class Entity {
     public String getID() {
         return ID;
     }
+
+    public String getType() {
+        return type;
+    }
+    public void setType(String type) {
+        this.type = type;
+    }
+
+
 }

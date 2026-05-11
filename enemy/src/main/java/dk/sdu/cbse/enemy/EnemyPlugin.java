@@ -9,6 +9,7 @@ public class EnemyPlugin implements IGamePluginService{
     @Override
     public void start(GameData gameData, World world) {
         Enemy enemy = new Enemy();
+        enemy.setType("Enemy1");
         enemy.setX(gameData.getDisplayWidth() / 2 + 100);
         enemy.setY(gameData.getDisplayHeight() / 2 + 100);
         enemy.setRadians(Math.random() * Math.PI * 2);
