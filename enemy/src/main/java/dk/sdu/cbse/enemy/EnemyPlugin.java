@@ -14,6 +14,9 @@ public class EnemyPlugin implements IGamePluginService{
         enemy.setY(gameData.getDisplayHeight() / 2 + 100);
         enemy.setRadians(Math.random() * Math.PI * 2);
         world.addEntity(enemy);
+        enemy.setShapeX(new double[]{10, -5, -3, -5});
+        enemy.setShapeY(new double[]{0, -5, 0, 5});
+
         System.out.println("Enemy Started");
     }
 

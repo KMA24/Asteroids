@@ -7,6 +7,8 @@ module core {
 
 
     requires common; //core needs to require common to use the Interface from common
+    requires javafx.graphics;
+    requires javafx.controls;
 
     //core uses these interfaces
     uses IEntityProcessingService;

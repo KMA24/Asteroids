@@ -18,7 +18,7 @@ public class EnemyLogic implements IEntityProcessingService {
             enemy.setX(enemy.getX() + Math.cos(radians) * speed);
             enemy.setY(enemy.getY() + Math.sin(radians) * speed);
 
-            enemy.setRadians(radians + 0.2);
+            enemy.setRadians(radians + 0);
         }
     }
 
