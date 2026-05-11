@@ -16,15 +16,14 @@ public class Game {
         GameData gameData = new GameData();
         World world = new World();
 
-        System.out.println("Scanning for modules...");
-
-        // Try to find the Player module
+        //try to find the modules
         ServiceLoader<IGamePluginService> loader = ServiceLoader.load(IGamePluginService.class);
 
+        //every module should print "... Started" if found
         for (IGamePluginService plugin : loader) {
             plugin.start(gameData, world);
         }
 
-        System.out.println("Scan complete.");
+
     }
 }

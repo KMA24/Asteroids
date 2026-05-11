@@ -1,3 +1,4 @@
+import dk.sdu.cbse.common.services.IGamePluginService;
 import dk.sdu.cbse.player.PlayerPlugin;
 
 module player {
@@ -5,5 +6,5 @@ module player {
 
     requires common;
 
-    provides dk.sdu.cbse.common.services.IGamePluginService with dk.sdu.cbse.player.PlayerPlugin;
+    provides IGamePluginService with PlayerPlugin;
 }

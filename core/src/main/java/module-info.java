@@ -8,6 +8,6 @@ module core {
     requires common; //core needs to require common to use the Interface from common
 
     //core uses these interfaces
-    uses dk.sdu.cbse.common.services.IEntityProcessingService;
-    uses dk.sdu.cbse.common.services.IGamePluginService;
+    uses IEntityProcessingService;
+    uses IGamePluginService;
 }
