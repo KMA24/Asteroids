@@ -71,13 +71,13 @@ public class Game extends Application {
             Polygon polygon = polygons.get(entity);
             if (polygon == null) {
                 polygon = new Polygon();
-                polygon.setStroke(Color.GREEN);
-                polygon.setFill(Color.WHITE);
+                polygon.setStroke(Color.GREEN); // Using green like your screenshot!
+                polygon.setFill(Color.TRANSPARENT);
                 polygons.put(entity, polygon);
                 gameWindow.getChildren().add(polygon);
             }
 
-            // Move and Rotate the polygon
+            // 1. Update the points (The coordinates we fixed)
             polygon.getPoints().clear();
             for (int i = 0; i < entity.getShapeX().length; i++) {
                 polygon.getPoints().addAll(
@@ -85,6 +85,11 @@ public class Game extends Application {
                         entity.getY() + entity.getShapeY()[i]
                 );
             }
+
+            // 2. The Rotation Logic (Place it here!)
+            // JavaFX uses degrees, but our physics uses radians
+            double degrees = Math.toDegrees(entity.getRadians());
+            polygon.setRotate(degrees);
         }
     }
 }
