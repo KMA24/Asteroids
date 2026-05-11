@@ -18,14 +18,16 @@ public class Game {
     public void run() {
         GameData gameData = new GameData();
         World world = new World();
+        //size of the map
+        gameData.setDisplayWidth(800);
+        gameData.setDisplayHeight(600);
 
-        // 1. Initialise plugins (Map, Player, Enemy)
+        //Initialise plugins
         for (IGamePluginService iGamePluginService : ServiceLoader.load(IGamePluginService.class)) {
             iGamePluginService.start(gameData, world);
         }
 
-        // 2. The Game Loop
-        // In core/src/main/java/dk/sdu/cbse/core/Game.java
+        //the gameloop
         while (true) {
             for (IEntityProcessingService processor : ServiceLoader.load(IEntityProcessingService.class)) {
                 processor.process(gameData, world);
@@ -33,7 +35,8 @@ public class Game {
 
             // Loop through all entities and find the one tagged "ENEMY"
             for (Entity entity : world.getEntities()) {
-                if ("ENEMY".equals(entity.getType())) {
+                //show enemy position in the terminal
+                if ("Enemy1".equals(entity.getType())) {
                     System.out.printf("Enemy [%s] position: x=%.2f, y=%.2f\n",
                             entity.getID().substring(0, 4), entity.getX(), entity.getY());
                 }
