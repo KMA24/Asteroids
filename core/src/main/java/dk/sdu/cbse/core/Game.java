@@ -15,6 +15,8 @@ import javafx.stage.Stage;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.ServiceLoader;
+import java.util.List;
+import java.util.ArrayList;
 
 public class Game extends Application {
 
@@ -23,6 +25,8 @@ public class Game extends Application {
     private final Map<Entity, Polygon> polygons = new ConcurrentHashMap<>();
     private Pane gameWindow;
     private int printCounter;
+
+    private final List<IEntityProcessingService> processors = new ArrayList<>();
 
     public static void main(String[] args) {
         launch(args);
@@ -43,6 +47,10 @@ public class Game extends Application {
         window.setTitle("ASTEROIDS");
         window.show();
 
+        for (IEntityProcessingService processor : ServiceLoader.load(IEntityProcessingService.class)) {
+            processors.add(processor);
+        }
+
         // Start Plugins
         for (IGamePluginService plugin : ServiceLoader.load(IGamePluginService.class)) {
             plugin.start(gameData, world);
@@ -55,6 +63,7 @@ public class Game extends Application {
         new AnimationTimer() {
             @Override
             public void handle(long now) {
+                gameData.setTime(0.0166f);
                 update();
                 draw();
             }
@@ -62,7 +71,7 @@ public class Game extends Application {
     }
 
     private void update() {
-        for (IEntityProcessingService processor : ServiceLoader.load(IEntityProcessingService.class)) {
+        for (IEntityProcessingService processor : processors) {
             processor.process(gameData, world);
         }
         //shows the enemy position
@@ -77,17 +86,33 @@ public class Game extends Application {
     }
 
     private void draw() {
+        // Step A: Clean up old bullet polygons that were deleted by your BulletControlSystem
+        polygons.entrySet().removeIf(entry -> {
+            if (!world.getEntities().contains(entry.getKey())) {
+                gameWindow.getChildren().remove(entry.getValue());
+                return true;
+            }
+            return false;
+        });
+
         for (Entity entity : world.getEntities()) {
             Polygon polygon = polygons.get(entity);
             if (polygon == null) {
                 polygon = new Polygon();
-                polygon.setStroke(Color.GREEN); // Using green like your screenshot!
                 polygon.setFill(Color.TRANSPARENT);
                 polygons.put(entity, polygon);
                 gameWindow.getChildren().add(polygon);
             }
 
-            // 1. Update the points (The coordinates we fixed)
+            // Step B: Explicitly set the stroke color every frame to guarantee visibility
+            if ("bullet".equals(entity.getType())) {
+                polygon.setStroke(Color.RED);
+                polygon.setStrokeWidth(2); // Make it slightly thicker so it's easy to spot!
+            } else {
+                polygon.setStroke(Color.GREEN);
+                polygon.setStrokeWidth(1);
+            }
+
             polygon.getPoints().clear();
             for (int i = 0; i < entity.getShapeX().length; i++) {
                 polygon.getPoints().addAll(
@@ -96,8 +121,6 @@ public class Game extends Application {
                 );
             }
 
-            // 2. The Rotation Logic (Place it here!)
-            // JavaFX uses degrees, but our physics uses radians
             double degrees = Math.toDegrees(entity.getRadians());
             polygon.setRotate(degrees);
         }

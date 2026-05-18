@@ -5,6 +5,7 @@ public class GameData {
     private int displayWidth;
     private int displayHeight;
     private final GameKeys keys = new GameKeys();
+    private float Time;
 
     public GameKeys getKeys() {
         return keys;
@@ -24,6 +25,13 @@ public class GameData {
 
     public int getDisplayHeight() {
         return displayHeight;
+    }
+
+    public float getTime() {
+        return Time;
+    }
+    public void setTime(float Time) {
+        this.Time = Time;
     }
 
 }

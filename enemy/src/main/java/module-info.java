@@ -7,6 +7,7 @@ module enemy {
     exports dk.sdu.cbse.enemy;
 
     requires common;
+    requires bullet;
 
     provides IGamePluginService with EnemyPlugin;
     provides IEntityProcessingService with EnemyLogic;

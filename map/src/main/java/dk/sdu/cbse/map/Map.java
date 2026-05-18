@@ -14,6 +14,10 @@ public class Map implements IEntityProcessingService {
 
          //Entities will wrap around the map
         for (Entity entity : world.getEntities()) {
+            if ("bullet".equals(entity.getType())) {
+                continue;
+            }
+
             if (entity.getX() < 0) {
                 entity.setX(entity.getX() + width);
             } else if (entity.getX() > width) {
